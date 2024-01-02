@@ -1,0 +1,190 @@
+<section class="details-section" id="details">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <h1 class="headings">Patient Details</h1>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>
+          <a href="#form"><button class="btn btn-success">Add Patient</button></a>
+        </th>
+
+      </tr>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>DOB</th>
+        <th>Mail</th>
+        <th>Gender</th>
+        <th>Aadhar</th>
+        <th>Pan</th>
+        <th>Driving</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let a of patients index as i">
+      <tr>
+        <td>{{a.id}}</td>
+        <td>{{a.firstname}} {{a.lastname}}</td>
+        <td>{{a.phone}}</td>
+        <td>{{a.dob}}</td>
+        <td>{{a.email}}</td>
+        <td>{{a.gender}}</td>
+        <td>{{a.aadhar}}</td>
+        <td>{{a.pan}}</td>
+        <td>{{a.driving}}</td>
+        <td>{{a.add1}} {{a.add2}} {{a.city}} {{a.pincode}}</td>
+        <div class="actions">
+          <td>
+            <a href="#form"><button class="btn btn-primary" (click)="onEditBtnClicked(a.id, i)">Edit</button></a>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="onDeleteBtnClicked(i)">Delete</button>
+          </td>
+        </div>
+
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="container form-section" id="form">
+  <div class="head">
+    <h1 class="headings">Registration Form</h1>
+  </div>
+  <form class="form" (ngSubmit)="onSubmitBtnClicked()" ngForm name="form" #form="ngForm">
+
+    <div class="column">
+
+      <div class="input-box">
+        <input type="text" placeholder="Patient First Name" name="firstname" ngModel #fName="ngModel" required maxlength="30"/>
+        <div *ngIf="fName.invalid && fName.touched">
+          <small class="error" *ngIf="fName.errors?.['required']">First Name is required</small>
+          <small class="error" *ngIf="fName.errors?.['maxlength']">characters must less than 30</small>
+        </div>
+      </div> 
+      <div class="input-box">
+        <input type="text" placeholder="Patient Last Name" name="lastname" ngModel #lName="ngModel" required minlength="4" maxlength="30"/>
+        <div *ngIf="lName.invalid && lName.touched">
+          <small class="error" *ngIf="lName.errors?.['required']">Last Name is required</small>
+          <small class="error" *ngIf="lName.errors?.['maxlength']">characters must less than 30</small>
+        </div>
+      </div>
+
+    </div>    
+   
+
+    <div class="column">
+
+      <div class="input-box">
+        <input type="number" placeholder="Phone Number" name="phone" ngModel #phone="ngModel" required pattern="[0-9]{10}"/>
+        <div *ngIf="phone.invalid && phone.touched">
+          <small class="error" *ngIf="phone.errors?.['required']">Phone number is required</small>
+          <small class="error" *ngIf="phone.errors?.['pattern']">Invalid Mobile Number</small>
+        </div>
+      </div>
+      <div class="input-box">
+        <input type="date" placeholder="Date of Birth" name="dob" ngModel #dob="ngModel" required/>
+      </div>
+
+    </div>
+
+    
+
+
+      <div class="column">
+
+        <div class="input-box">
+          <input type="text" placeholder="Email" name="email" ngModel #email="ngModel" required email/>
+          <div *ngIf="email.invalid && email.touched">
+            <small class="error" *ngIf="email.errors?.['required']">Email is required</small>
+            <small class="error" *ngIf="email.errors?.['email']">Invalid Email Address</small>
+          </div>
+        </div>
+        <div class="select-box">
+          <select name="gender" ngModel #gender="ngModel" required [(ngModel)]="defaultGender">
+            <option hidden>Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Others</option>
+          </select>
+          <div *ngIf="gender.invalid && gender.touched">
+            <small class="error" *ngIf="gender.errors?.['required']">Please select your gender</small>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="column">
+
+        <div class="input-box">
+          <input type="number" placeholder="Aadhar Number" name="aadhar" ngModel #aadhar="ngModel" required pattern="[2-9]{1}[0-9]{11}"/>
+          <div *ngIf="aadhar.invalid && aadhar.touched">
+            <small class="error" *ngIf="aadhar.errors?.['required']">Aadhar Number is required</small>
+            <small class="error" *ngIf="aadhar.errors?.['pattern']">Invalid Aadhar Number</small>
+          </div>
+        </div>
+        <div class="input-box">
+          <input type="text" placeholder="Pan Number" name="pan" ngModel #pan="ngModel" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"/>
+          <div *ngIf="pan.invalid && pan.touched">
+            <small class="error" *ngIf="pan.errors?.['required']">Pan Number is required</small>
+            <small class="error" *ngIf="pan.errors?.['pattern']">Invalid Pan Number</small>
+          </div>
+        </div>
+  
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Driving Liscence" name="driving" ngModel #driving="ngModel" required pattern="[A-Z a-z 0-9]{5,20}"/>
+        <div *ngIf="driving.invalid && driving.touched">
+          <small class="error" *ngIf="driving.errors?.['required']">Driving Liscence is required</small>
+          <small class="error" *ngIf="driving.errors?.['pattern']">Invalid Driving Liscence</small>
+        </div>
+      </div>
+
+    <div class="input-box address" >
+      <hr>
+      <label class="heading">Address</label>
+
+      <input type="text" placeholder="Address Line - 1" name="add1" ngModel #add1="ngModel" required maxlength="100"/>
+      <div *ngIf="add1.invalid && add1.touched">
+        <small class="error" *ngIf="add1.errors?.['required']">Please enter the address</small>
+        <small class="error" *ngIf="add1.errors?.['maxlength']">characters < 100</small>
+      </div>
+
+      <input type="text" placeholder="Address Line - 2" name="add2" ngModel #add2="ngModel" maxlength="100"/>
+      <div *ngIf="add2.invalid && add2.touched">
+        <small class="error" *ngIf="add2.errors?.['required']">Please enter the address</small>
+        <small class="error" *ngIf="add2.errors?.['maxlength']">characters < 100</small>
+      </div>
+      
+      
+      <div class="column">
+        <div class="input-box">
+          <input type="text" placeholder="City" name="city" ngModel #city="ngModel" required />
+          <div *ngIf="city.invalid && city.touched">
+            <small class="error" *ngIf="city.errors?.['required']">City field is requires</small>
+          </div>
+        </div>
+        
+        <div class="input-box">
+          <input type="number" placeholder="Pin code" name="pincode" ngModel #pincode="ngModel" required pattern="[0-9]{6}"/>
+          <div *ngIf="pincode.invalid && pincode.touched">
+            <small class="error" *ngIf="pincode.errors?.['required']">Please enter pincode</small>
+            <small class="error" *ngIf="pincode.errors?.['pattern']">please enter 6 digit pincode</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- submit btn -->
+    <a href="#"><input type="submit" value="Submit" class="submit-btn"></a>
+  </form>
+</section>
+
+
